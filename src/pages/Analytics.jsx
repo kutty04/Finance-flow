@@ -1,32 +1,32 @@
 import { useMemo } from 'react';
 import { kmeans } from '../lib/kmeans';
 import { ClusterScatterChart } from '../components/charts/ClusterScatterChart';
+import { AIAuditPanel } from '../components/AIAuditPanel';
 import { BrainCircuit } from 'lucide-react';
 import { useTransactions } from '../hooks/useTransactions';
+import { useBudgets } from '../hooks/useBudgets';
+import { useMonth } from '../contexts/MonthContext';
 
 export function Analytics() {
   const { transactions } = useTransactions();
+  const { budgets } = useBudgets();
+  const { selectedMonth } = useMonth();
 
-  // We are now feeding the REAL transactions into the K-Means algorithm!
+  // Feed REAL transactions into the K-Means algorithm
   const clusteredData = useMemo(() => {
-    // 1. Filter out income (we only want to cluster expenses)
     const expenses = transactions.filter(t => t.type === 'expense');
-
     if (expenses.length === 0) return [];
 
-    // 2. Map the data into the { x, y, label } format that kmeans expects
     const rawData = expenses.map(t => {
       const dateObj = new Date(t.date);
       return {
-        x: dateObj.getDate(), // Day of the month (1-31)
-        y: Number(t.amount),  // Amount spent
-        label: t.description || t.category // Label for the tooltip
+        x: dateObj.getDate(),
+        y: Number(t.amount),
+        label: t.description || t.category,
       };
     });
 
-    // 3. We dynamically choose 'k'. If they only have 2 transactions, k=3 will crash.
     const k = Math.min(3, rawData.length);
-    
     return kmeans(rawData, k);
   }, [transactions]);
 
@@ -38,12 +38,13 @@ export function Analytics() {
             <BrainCircuit className="text-purple-500" size={32} />
             AI Analytics
           </h2>
-          <p className="text-slate-400 mt-1">Machine Learning analysis of your spending behavior.</p>
+          <p className="text-slate-400 mt-1">Machine Learning analysis + AI-powered financial insights.</p>
         </div>
       </div>
 
+      {/* Top Row: K-Means Cluster Chart + Legend */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Left Column: The Chart */}
         <div className="lg:col-span-2 bg-surface border border-border rounded-2xl p-6 flex flex-col">
           <h3 className="text-lg font-semibold text-slate-200 mb-2">Spending Clusters (K-Means)</h3>
@@ -92,6 +93,13 @@ export function Analytics() {
           </div>
         </div>
       </div>
+
+      {/* Full-Width AI Audit Panel */}
+      <AIAuditPanel
+        transactions={transactions}
+        budgets={budgets}
+        selectedMonth={selectedMonth}
+      />
     </div>
   );
 }
