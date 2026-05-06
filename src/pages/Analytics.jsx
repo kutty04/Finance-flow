@@ -1,16 +1,11 @@
 import { useMemo } from 'react';
 import { kmeans } from '../lib/kmeans';
 import { ClusterScatterChart } from '../components/charts/ClusterScatterChart';
-import { AIAuditPanel } from '../components/AIAuditPanel';
 import { BrainCircuit } from 'lucide-react';
 import { useTransactions } from '../hooks/useTransactions';
-import { useBudgets } from '../hooks/useBudgets';
-import { useMonth } from '../contexts/MonthContext';
 
 export function Analytics() {
   const { transactions } = useTransactions();
-  const { budgets } = useBudgets();
-  const { selectedMonth } = useMonth();
 
   // Feed REAL transactions into the K-Means algorithm
   const clusteredData = useMemo(() => {
@@ -38,13 +33,12 @@ export function Analytics() {
             <BrainCircuit className="text-purple-500" size={32} />
             AI Analytics
           </h2>
-          <p className="text-slate-400 mt-1">Machine Learning analysis + AI-powered financial insights.</p>
+          <p className="text-slate-400 mt-1">Machine Learning analysis of your spending behavior.</p>
         </div>
       </div>
 
-      {/* Top Row: K-Means Cluster Chart + Legend */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
+        
         {/* Left Column: The Chart */}
         <div className="lg:col-span-2 bg-surface border border-border rounded-2xl p-6 flex flex-col">
           <h3 className="text-lg font-semibold text-slate-200 mb-2">Spending Clusters (K-Means)</h3>
@@ -93,13 +87,6 @@ export function Analytics() {
           </div>
         </div>
       </div>
-
-      {/* Full-Width AI Audit Panel */}
-      <AIAuditPanel
-        transactions={transactions}
-        budgets={budgets}
-        selectedMonth={selectedMonth}
-      />
     </div>
   );
 }

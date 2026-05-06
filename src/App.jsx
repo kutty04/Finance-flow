@@ -3,6 +3,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
 import { Analytics } from './pages/Analytics';
 import { Budgets } from './pages/Budgets';
+import { AIAudit } from './pages/AIAudit';
 import { Landing } from './pages/Landing';
 import { Layout } from './components/Layout';
 import { MonthProvider } from './contexts/MonthContext';
@@ -33,6 +34,7 @@ function MainApp() {
         {currentView === 'transactions' && <Transactions />}
         {currentView === 'analytics' && <Analytics />}
         {currentView === 'budgets' && <Budgets />}
+        {currentView === 'ai-audit' && <AIAudit />}
       </Layout>
     </MonthProvider>
   );

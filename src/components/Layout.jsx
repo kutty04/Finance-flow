@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LayoutDashboard, ReceiptText, PieChart, Wallet } from 'lucide-react';
+import { LayoutDashboard, ReceiptText, PieChart, Wallet, Sparkles } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,6 +14,7 @@ export function Layout({ children, currentView, setCurrentView }) {
     { id: 'transactions', label: 'Transactions', icon: ReceiptText },
     { id: 'analytics', label: 'Analytics', icon: PieChart },
     { id: 'budgets', label: 'Budgets', icon: Wallet },
+    { id: 'ai-audit', label: 'AI Advisor', icon: Sparkles },
   ];
 
   return (
