@@ -2,8 +2,10 @@ import { useState, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { CATEGORIES } from '../lib/constants';
 import { X, Loader2, Camera } from 'lucide-react';
+import { useSettings } from '../contexts/SettingsContext';
 
 export function TransactionForm({ onClose, onSuccess, initialData }) {
+  const { currency } = useSettings();
   const [loading, setLoading] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const fileInputRef = useRef(null);
@@ -220,7 +222,7 @@ export function TransactionForm({ onClose, onSuccess, initialData }) {
 
           {/* Amount */}
           <div>
-            <label className="block text-sm font-medium text-slate-400 mb-1">Amount (₹)</label>
+            <label className="block text-sm font-medium text-slate-400 mb-1">Amount ({currency})</label>
             <input
               required
               type="number"

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDownRight, IndianRupee, CreditCard, Calendar, AlertCircle } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, IndianRupee, DollarSign, Euro, CreditCard, Calendar, AlertCircle } from 'lucide-react';
 import { IncomeExpenseChart } from '../components/charts/IncomeExpenseChart';
 import { CategoryDonutChart } from '../components/charts/CategoryDonutChart';
 import { TransactionForm } from '../components/TransactionForm';
@@ -13,6 +13,7 @@ export function Dashboard() {
   const { transactions } = useTransactions();
   const { selectedMonth, setSelectedMonth } = useMonth();
   const { currency, privacyMode } = useSettings();
+  const CURRENCY_ICONS = { '₹': IndianRupee, '$': DollarSign, '€': Euro };
 
   // 1. Filter transactions by selected month
   const monthlyTransactions = useMemo(() => {
@@ -61,7 +62,7 @@ export function Dashboard() {
   }, [transactions, selectedMonth]);
 
   const cards = [
-    { title: 'Monthly Balance', amount: privacyMode ? '****' : `${currency}${balance.toLocaleString()}`, icon: IndianRupee, trend: 'This Month', isUp: balance >= 0 },
+    { title: 'Monthly Balance', amount: privacyMode ? '****' : `${currency}${balance.toLocaleString()}`, icon: CURRENCY_ICONS[currency] || IndianRupee, trend: 'This Month', isUp: balance >= 0 },
     { title: 'Monthly Income', amount: privacyMode ? '****' : `${currency}${income.toLocaleString()}`, icon: ArrowUpRight, trend: 'This Month', isUp: true },
     { title: 'Monthly Expenses', amount: privacyMode ? '****' : `${currency}${expense.toLocaleString()}`, icon: ArrowDownRight, trend: 'This Month', isUp: false },
     { title: 'Active Budgets', amount: '4', icon: CreditCard, trend: 'On track', isUp: true, isText: true },

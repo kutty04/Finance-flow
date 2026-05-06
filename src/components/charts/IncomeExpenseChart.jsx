@@ -1,8 +1,10 @@
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
+import { useSettings } from '../../contexts/SettingsContext';
 
 export function IncomeExpenseChart({ data }) {
+  const { currency } = useSettings();
   return (
     <div className="w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -32,12 +34,13 @@ export function IncomeExpenseChart({ data }) {
             fontSize={12}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => `₹${value}`}
+            tickFormatter={(value) => `${currency}${value}`}
           />
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
           <Tooltip 
             contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '8px' }}
             itemStyle={{ color: '#e2e8f0' }}
+            formatter={(value) => [`${currency}${value}`, '']}
           />
           <Area 
             type="monotone" 

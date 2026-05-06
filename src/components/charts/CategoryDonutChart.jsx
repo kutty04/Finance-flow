@@ -1,8 +1,10 @@
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend 
 } from 'recharts';
+import { useSettings } from '../../contexts/SettingsContext';
 
 export function CategoryDonutChart({ data }) {
+  const { currency } = useSettings();
   return (
     <div className="w-full h-full flex flex-col">
       <ResponsiveContainer width="100%" height="100%">
@@ -24,7 +26,7 @@ export function CategoryDonutChart({ data }) {
           <Tooltip 
             contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '8px' }}
             itemStyle={{ color: '#e2e8f0' }}
-            formatter={(value) => `₹${value}`}
+            formatter={(value) => `${currency}${value}`}
           />
           <Legend 
             verticalAlign="bottom" 

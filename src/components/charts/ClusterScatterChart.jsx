@@ -1,8 +1,10 @@
 import { 
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ZAxis 
 } from 'recharts';
+import { useSettings } from '../../contexts/SettingsContext';
 
 export function ClusterScatterChart({ clusteredData }) {
+  const { currency } = useSettings();
   // Vibrant colors for up to 5 clusters
   const COLORS = ['#3b82f6', '#ec4899', '#10b981', '#f59e0b', '#8b5cf6'];
 
@@ -14,7 +16,7 @@ export function ClusterScatterChart({ clusteredData }) {
         <div className="bg-surface border border-border p-3 rounded-lg shadow-xl">
           <p className="font-medium text-slate-200">{data.label}</p>
           <p className="text-sm text-slate-400">Day of Month: {Math.round(data.x)}</p>
-          <p className="text-sm font-bold text-slate-100 mt-1">₹{Math.round(data.y).toLocaleString()}</p>
+          <p className="text-sm font-bold text-slate-100 mt-1">{currency}{Math.round(data.y).toLocaleString()}</p>
           <p className="text-xs text-slate-500 mt-2 uppercase tracking-wide">Cluster {data.cluster + 1}</p>
         </div>
       );
@@ -45,7 +47,7 @@ export function ClusterScatterChart({ clusteredData }) {
             dataKey="y" 
             name="Amount" 
             stroke="#94a3b8" 
-            tickFormatter={(v) => `₹${v}`}
+            tickFormatter={(v) => `${currency}${v}`}
             tickLine={false}
             axisLine={false}
           />

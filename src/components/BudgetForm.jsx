@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { CATEGORIES } from '../lib/constants';
 import { X, Loader2 } from 'lucide-react';
+import { useSettings } from '../contexts/SettingsContext';
 
 export function BudgetForm({ onClose, onSuccess }) {
+  const { currency } = useSettings();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     category: CATEGORIES[0].label,
@@ -62,7 +64,7 @@ export function BudgetForm({ onClose, onSuccess }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-400 mb-1">Monthly Limit (₹)</label>
+            <label className="block text-sm font-medium text-slate-400 mb-1">Monthly Limit ({currency})</label>
             <input
               required
               type="number"
